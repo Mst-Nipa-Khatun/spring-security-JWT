@@ -1,5 +1,5 @@
-JWT(JSON Web Token)
-What is JWT?
+# JWT(JSON Web Token)
+## What is JWT?
 JWT (JSON Web Token) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object.
 
 It ensures our security. If we log in to Server B from Client A using a username and password, we have to log in repeatedly. But if we use the JWT library, after logging into the server, it provides us with a token, which is encrypted.
@@ -8,26 +8,30 @@ This token ensures whether I am valid or not, and if I am valid, it checks the t
 
 A JWT token has three parts and is provided as an encoded string, which can be decoded in three ways.
 
-First-Header
+### First-Header
+```json
 {
 "alg": "HS256",
 "typ": "JWT"
 }
+```
 alg: The algorithm used for signing (e.g., HS256, RS256).
 typ: The type of token (always JWT).
 
-Second- PayLoad
+### Second- PayLoad
+```JSON
 { "sub": "1234567890",
 "name": "John Doe",
 "iat": 1710123456, // Issued at
 "exp": 1710127456 // Expiration time }
 
-3rd-Singnature:
-HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)
+```
+### 3rd-Singnature:
+**HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)**
 
 
-Pros and Cons of JWT (JSON Web Token)
-Pros of JWT
+## Pros and Cons of JWT (JSON Web Token)
+#### Pros of JWT
 1. Stateless Authentication (No Server-Side Storage)
    JWT does not require server-side session storage.
    Ideal for scalable applications and microservices architectures.
@@ -44,7 +48,7 @@ Pros of JWT
 5. Expiry and Custom Claims
    JWT supports custom claims, allowing you to store user roles, permissions, and metadata.
 
-Cons of JWT:
+#### Cons of JWT:
 
 1. Difficult to Revoke (Security Concern)
    Once a JWT is issued, it cannot be revoked easily until it expires.
@@ -66,16 +70,16 @@ Cons of JWT:
    Incorrect implementation (e.g., using long-lived tokens without proper security) can introduce serious vulnerabilities.
    Solution: Always sign and validate tokens correctly.
 
-When we use JWT:
+**When we use JWT:**
 Working with stateless APIs (RESTful, GraphQL, Microservices).
 When Need scalability without server-side session storage.
 Require cross-domain authentication (SSO).
 
-Do not use JWT:
+**Do not use JWT:**
 When we need frequent session invalidation (e.g., banking apps).
 We have short-lived sessions with minimal data (a simple session ID may work better).
 
-If i don’t use JWT in my application, Some problems might be Faced:
+**If i don’t use JWT in my application, Some problems might be Faced:**
 
 1. Loss of Stateless Authentication
 2. Reduced API Security & Scalability
@@ -85,9 +89,9 @@ If i don’t use JWT in my application, Some problems might be Faced:
 6. Logout & Token Invalidation Issues
    If i won't us JWT, might face scalability, security, and performance issues, especially in mobile apps, microservices, or high-traffic applications. Session-based authentication works well for small web applications, but modern applications benefit more from JWT.
 
-Real-Life Example: JWT vs. Session-Based Authentication
+**Real-Life Example:** JWT vs. Session-Based Authentication
 
-Example 1: Traditional E-commerce (Session-Based Authentication)
+**Example 1:** Traditional E-commerce (Session-Based Authentication)
 Scenario:
 
 How it works (Session-based authentication):
@@ -107,7 +111,7 @@ Best for small web applications where users log in from the same browser.
 
 
 
-Example 2: Modern E-commerce (JWT-Based Authentication)
+**Example 2:** Modern E-commerce (JWT-Based Authentication)
 Scenario:
 
 How it works (JWT-based authentication)?
@@ -124,7 +128,8 @@ Load balancing friendly: Any server can validate the JWT without storing session
 Works across mobile & web apps: Since JWT is stateless, it can be used for mobile authentication easily.
 Easy integration with APIs: Perfect for microservices and REST APIs.
 .
-Another Real-Life Example: Facebook Login
+
+**Another Real-Life Example:** Facebook Login
 
 Session-Based (Old System)
 When you log in to Facebook on your browser, it creates a session and stores it as a cookie.
