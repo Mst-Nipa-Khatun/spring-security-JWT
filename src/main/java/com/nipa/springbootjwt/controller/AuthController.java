@@ -1,6 +1,7 @@
 package com.nipa.springbootjwt.controller;
 
 import com.nipa.springbootjwt.dto.LoginDto;
+import com.nipa.springbootjwt.dto.Response;
 import com.nipa.springbootjwt.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -22,7 +23,7 @@ public class AuthController {
         this.authService = authService;
     }
     @PostMapping("/login")
-    public Object login(@RequestBody LoginDto loginDto,  HttpServletRequest httpServletRequest) {
+    public Response login(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) {
         return authService.login(loginDto, httpServletRequest);
     }
 

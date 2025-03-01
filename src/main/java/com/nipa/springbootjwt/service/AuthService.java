@@ -3,8 +3,11 @@ package com.nipa.springbootjwt.service;
 import com.nipa.springbootjwt.config.JwtTokenProvider;
 import com.nipa.springbootjwt.dto.LoginDto;
 import com.nipa.springbootjwt.dto.LoginResponseDto;
+import com.nipa.springbootjwt.dto.Response;
 import com.nipa.springbootjwt.entity.User;
 import com.nipa.springbootjwt.repository.UserRepository;
+import com.nipa.springbootjwt.utils.ResponseBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,10 +27,11 @@ public class AuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public Object login(LoginDto loginDto, HttpServletRequest httpServletRequest) {
+    public Response login(LoginDto loginDto, HttpServletRequest httpServletRequest) {
         User user = userRepository.findByPhoneAndStatus(loginDto.getPhone(), 1);
         if (user == null) {
-            return "Invalid Phone or Password";
+            return ResponseBuilder.getFailResponse(HttpStatus.BAD_REQUEST,
+                    null,"Invalid Phone or Password");
         }
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getPhone(),
@@ -36,8 +40,10 @@ public class AuthService {
             LoginResponseDto loginResponseDto = new LoginResponseDto();
             loginResponseDto.setToken(jwtTokenProvider.generateToken(authentication, httpServletRequest));
             loginResponseDto.setUsername(user.getUsername());
-            return loginResponseDto;
+            return ResponseBuilder.getFailResponse(HttpStatus.OK,
+                    loginResponseDto,"Login Successful");
         }
-        return "Invalid Phone or Password";
+        return ResponseBuilder.getFailResponse(HttpStatus.BAD_REQUEST,
+                null,"Invalid Phone or Password");
     }
 }
